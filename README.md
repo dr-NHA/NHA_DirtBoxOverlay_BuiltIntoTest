@@ -25,8 +25,9 @@ NewDBO.TicksPerRedraw=(int)
 NewDBO.RefreshOverlayingWindow = true;
 
 ## Overlay Window Form
-NewDBO.OverlayingWindow = (Form);//Pop A Form In This Variable For It To Show In The Overlay
-//Form Needs To Be Shown As The Code Wont Call Show On It!
+NewDBO.OverlayingWindow = (Form);
+### Pop A Form In This Variable For It To Show In The Overlay
+### Form Needs To Be Shown As The Code Wont Call Show On It!
 
 ## Show Overlay (DOESNT AUTO SHOW WHEN CREATING IT)
 NewDBO.Show();
