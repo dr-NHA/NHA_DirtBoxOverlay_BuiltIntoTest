@@ -1,15 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
 using NHA_DirtBoxOverlay;
+
 namespace Test_App{
     public partial class NDBO_T0 : Form{
         public NDBO_T0(){
@@ -28,8 +24,7 @@ namespace Test_App{
                         !ListedProcess.ProcessName.StartsWith("svchost")
                         &&
                         ListedProcess.MainWindowTitle.Replace(" ","")!=""
-                        )
-                    {
+                        ){
                         ProcessArrayBuilder.Add(ListedProcess);
                     }
                 }
