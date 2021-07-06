@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using static NHA_DirtBoxOverlay.External;
 
 namespace NHA_DirtBoxOverlay{
     public partial class DirtBoxOverlay : Form{
@@ -30,41 +25,6 @@ namespace NHA_DirtBoxOverlay{
         }
       public  Process WhatWeOverlay;
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct RECT{
-        public int Left;        // x position of upper-left corner
-        public int Top;         // y position of upper-left corner
-        public int Right;       // x position of lower-right corner
-        public int Bottom;      // y position of lower-right corner
-    }
-
-
-        
-        [DllImport("User32.dll")]
-        private static extern int GetWindowLong(IntPtr hwnd, int nIndex);
-
-        [DllImport("User32.dll")]
-        private static extern int SetWindowLong(IntPtr hwnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-
-        public static string GetActiveWindowTitle(){
-            const int nChars = 256;
-            StringBuilder Buff = new StringBuilder(nChars);
-            IntPtr handle = GetForegroundWindow();
-
-            if (GetWindowText(handle, Buff, nChars) > 0){
-                return Buff.ToString();
-            }
-            return null;
-        }
 
 
 public void SetInvisibleColor(Color Setup){
@@ -79,7 +39,7 @@ public void SetInvisibleColor(Color Setup){
         public Form OverlayingWindow = new Form();
         public bool RefreshOverlayingWindow = false;
         public static int[] RefreshSpeeds = {10,//Fast ASF
-                                      50,//Regular
+                                      150,//Regular
                                      70,//Decent
                                      100,//Slow
                                        };
@@ -94,10 +54,9 @@ public void SetInvisibleColor(Color Setup){
            // this.Opacity = 0;
             for (; ; ){
                 if (Shutdown==true|| WhatWeOverlay.HasExited) { break; }
-                WindowAttached = (AWT == WhatWeOverlay.MainWindowTitle || AWT == this.Text);
                 OverlayingRefreshHandler();
                 if (CurrentTickCount == TicksPerRedraw){
-              await  OverlayingRedrawHandler();
+                OverlayingRedrawHandler();
                     CurrentTickCount = 0;
                 }
                 CurrentTickCount++;
@@ -130,16 +89,37 @@ ShowWindow();
 HideWindow(); WindowAttached = false;
 }
 
+Decider();
+}
+public bool Deciding=false;
+public bool DeciderCameBackNegative= false;
 
+public bool WindowIsCorrect() {
+if(AWT == WhatWeOverlay.MainWindowTitle) { return true; }
+if(AWT == this.Text){ return true; }
+return false;}
+public async Task Decider(){
+if(Deciding==false){
+Deciding=true; 
+DeciderCameBackNegative= false;
+for(var i=0;i<=10;i++){
+if(!WindowIsCorrect()) {
+WindowAttached = false;
+DeciderCameBackNegative=true;
+break;}
+}
+WindowAttached =!DeciderCameBackNegative;
+Deciding=false; }
 }
 public bool WindowAttached=false;
 
 public void Resizing(){
+if(WindowIsCorrect()){
 this.Size = new Size((TestRectangle.Right-12) - TestRectangle.Left, (TestRectangle.Bottom-7) - TestRectangle.Top );
 this.Top = TestRectangle.Top;
 this.Left = TestRectangle.Left+7;
 OverlayingWindow.Size=this.Size;
-}
+}}
 
 
 public void HideWindow(){       
@@ -151,8 +131,10 @@ this.TopMost = false;
 
 public void ShowWindow(){
 //this.Opacity = WindowOpacity;
+if(WindowIsCorrect()){
 this.TopMost = true;
 SetWindowLong(this.Handle, -20, GetWindowLong(this.Handle, -20) | 0x80000 | 0x20);
+}
 //this.WindowState = FormWindowState.Normal;
 }
 
