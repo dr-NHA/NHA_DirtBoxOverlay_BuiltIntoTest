@@ -61,6 +61,16 @@ namespace FakeMenu.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MENUIMG_GTAV {
+            get {
+                object obj = ResourceManager.GetObject("MENUIMG_GTAV", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap NHA_ICON {

@@ -77,6 +77,8 @@ RefreshOverlayInfoTask();
 }
 FakeMenu NewFakeMenu = new FakeMenu("FakeMenu");
 DirtBoxOverlay NewDBO = new DirtBoxOverlay(ProcessItems[INDEX], NewFakeMenu.FakeMenuTransparancyKey, DoWhenDead);
+NewDBO.FakeMenuPtr= NewFakeMenu;
+NewFakeMenu.DBO= NewDBO;
 NewDBO.DirtBoxIndex = INDEX;
 //NewDBO.TicksPerRedraw
 NewDBO.RefreshSpeedInMiliseconds=100;

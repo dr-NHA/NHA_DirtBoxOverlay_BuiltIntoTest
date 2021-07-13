@@ -121,13 +121,13 @@ this.Left = TestRectangle.Left+7;
 OverlayingWindow.Size=this.Size;
 }}
 
-
+        public FakeMenu.FakeMenu FakeMenuPtr;
 public void HideWindow(){       
 //this.Opacity=0;
 //this.TopLevel=false;
 this.TopMost = false;
 this.Size=new Size(0,0);
-
+            FakeMenuPtr.MenuShown = false;
 }
 
 public void ShowWindow(){
@@ -135,6 +135,7 @@ public void ShowWindow(){
 if(WindowIsCorrect()){
 this.TopMost = true;
 SetWindowLong(this.Handle, -20, GetWindowLong(this.Handle, -20) | 0x80000 | 0x20);
+FakeMenuPtr.MenuShown = true;
 }
 }
 

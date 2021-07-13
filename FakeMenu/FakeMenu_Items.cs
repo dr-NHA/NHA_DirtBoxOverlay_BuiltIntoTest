@@ -12,23 +12,48 @@ namespace FakeMenu
         public Action<List<object>> RefreshListOptions;
         public List<object> StartMenu;
         public List<object> BackMenu;
-        public FakeMenu_Items_Base(string Base=""){
+        public FakeMenu_Items_Base(string Base,FakeMenu MenuBase){
             if (Base=="FakeMenu"){
+
                 StartMenu = FakeMenuPage0();
-                   List<object> FakeMenuPage0(){
+
+
+                void OpenFakeMenuPageSettings() { RefreshListOptions(FakeMenuPageSettings()); }
+                
+                List<object> FakeMenuPageSettings(){
+                BackMenu = FakeMenuPage0();
+                void AddY() {if(MenuBase.MenuPosition[0]< MenuBase. MaxWindowSizing()[3]-( MenuBase.MenuHeightMax)) {  MenuBase.MenuPosition[0]+=10; MenuBase.RecolorMenu();} }
+                void TakeY() {if(MenuBase.MenuPosition[0]>35) { MenuBase.MenuPosition[0]-=10; MenuBase.RecolorMenu(); }}
+                void AddX() {if(MenuBase.MenuPosition[1]< MenuBase.MaxWindowSizing()[2]-(MenuBase.MenuWidth+4)) {  MenuBase.MenuPosition[1]+=10; MenuBase.RecolorMenu();} }
+                void TakeX() {if(MenuBase.MenuPosition[1]> 0) { MenuBase.MenuPosition[1]-=10; MenuBase.RecolorMenu(); }}
+               
+                    void BACK() { RefreshListOptions(BackMenu); }
+                return new List<object>() {
+                 "FakeMenu Settings",
+                NewOption("Add 10 To Menu Y", AddY,BACK),
+                NewOption("Take 10 From Menu Y", TakeY,BACK),
+                NewOption("Add 10 To Menu X", AddX,BACK),
+                NewOption("Take 10 From Menu X", TakeX,BACK)
+                };
+        }
+
+                List<object> FakeMenuPage0(){           
                 BackMenu = StartMenu;
                 void Opt0() { RefreshListOptions(FakeMenuPage1()); }
                 void Opt1() { RefreshListOptions(FakeMenuPage2()); }
                 void Opt2() { RefreshListOptions(FakeMenuPage3()); }
                 void Opt3() { RefreshListOptions(FakeMenuPage4()); }
                 void Opt4() { RefreshListOptions(FakeMenuPage5()); }
-                return new List<object>() {
+                    return new List<object>() {
                  "FakeMenuPage0",//title
                 NewOption("Opt0", Opt0,CloseMenu),//option
                 NewOption("Opt1", Opt1,CloseMenu),//option
                 NewOption("Opt2", Opt2,CloseMenu),//option
                 NewOption("Opt3", Opt3,CloseMenu),//option
-                NewOption("Opt4", Opt4,CloseMenu)//option
+                NewOption("Opt4", Opt4,CloseMenu),//option
+                NewOption("MenuSettings", OpenFakeMenuPageSettings,CloseMenu)//option
+
+                
       };}
 
                 List<object> FakeMenuPage1(){
